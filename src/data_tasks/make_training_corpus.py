@@ -1,7 +1,9 @@
 import pickle
 
+from nltk.tokenize.treebank import TreebankWordDetokenizer
 from spacy.gold import iob_to_biluo
 from spacy.gold import offsets_from_biluo_tags
+
 import hu_core_ud_lg
 
 sentences = []
@@ -67,11 +69,13 @@ for f in hunerwiki:
 corpus = []
 nlp = hu_core_ud_lg.load()
 for i in range(len(sentences)):
-    doc = nlp(' '.join(sentences[i]))
+    detokenized_sent = TreebankWordDetokenizer().detokenize(sentences[i])
+    doc = nlp(detokenized_sent)
     tags = iob_to_biluo(iobs[i])
     entities = offsets_from_biluo_tags(doc, tags)
-    e = (' '.join(sentences[i]), entities)
-    print(e)
+    e = (detokenized_sent, entities)
+    for ent in entities:
+        print(detokenized_sent[ent[0]:ent[1]])
     corpus.append(e)
 
 with open('data/interim/corpus.p', 'wb') as of:
