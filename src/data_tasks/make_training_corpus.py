@@ -9,15 +9,15 @@ import hu_core_ud_lg
 sentences = []
 iobs = []
 
-with open('data/corpora/hun_ner_corpus.txt', 'r', encoding='iso-8859-2') as f:
+with open("data/corpora/hun_ner_corpus.txt", "r", encoding="iso-8859-2") as f:
     sent = []
     tags = []
     for l in f:
-        l = l.strip().split('\t')
+        l = l.strip().split("\t")
         if len(l) == 2:
             wd, tag = l[0], l[1]
-            if tag == '0':
-                tag = 'O'
+            if tag == "0":
+                tag = "O"
             sent.append(wd)
             tags.append(tag)
         else:
@@ -27,15 +27,15 @@ with open('data/corpora/hun_ner_corpus.txt', 'r', encoding='iso-8859-2') as f:
             sent = []
             tags = []
 
-with open('data/corpora/HVGJavNEContext', 'r', encoding='iso-8859-2') as f:
+with open("data/corpora/HVGJavNEContext", "r", encoding="iso-8859-2") as f:
     sent = []
     tags = []
     for l in f:
         l = l.strip().split()
         if len(l) == 2:
             wd, tag = l[0], l[1]
-            if tag == '0':
-                tag = 'O'
+            if tag == "0":
+                tag = "O"
             sent.append(wd)
             tags.append(tag)
         else:
@@ -45,20 +45,24 @@ with open('data/corpora/HVGJavNEContext', 'r', encoding='iso-8859-2') as f:
             sent = []
             tags = []
 
-hunerwiki = ['data/corpora/huwiki.1.tsv', 'data/corpora/huwiki.2.tsv',
-             'data/corpora/huwiki.3.tsv', 'data/corpora/huwiki.4.tsv']
+hunerwiki = [
+    "data/corpora/huwiki.1.tsv",
+    "data/corpora/huwiki.2.tsv",
+    "data/corpora/huwiki.3.tsv",
+    "data/corpora/huwiki.4.tsv",
+]
 
 for f in hunerwiki:
-    with open(f, 'r') as tf:
+    with open(f, "r") as tf:
         sent = []
         tags = []
         for l in tf:
-            l = l.strip().split('\t')
+            l = l.strip().split("\t")
             wd, tag = l[0], l[-1]
             if len(l) == 2:
                 wd, tag = l[0], l[1]
-                if tag == '0':
-                    tag = 'O'
+                if tag == "0":
+                    tag = "O"
                 sent.append(wd)
                 tags.append(tag)
             else:
@@ -68,7 +72,7 @@ for f in hunerwiki:
                 tags = []
 corpus = []
 nlp = hu_core_ud_lg.load()
-md = MosesDetokenizer(lang='hu')
+md = MosesDetokenizer(lang="hu")
 for i in range(len(sentences)):
     detokenized_sent = md.detokenize(sentences[i])
     doc = nlp(detokenized_sent)
@@ -98,5 +102,9 @@ for i in range(len(sentences)):
         print(err, detokenized_sent)
         continue
 
-with open('data/interim/corpus.p', 'wb') as of:
+print(len(corpus))
+corpus = [e for e in corpus if len(e[0]) > 0]
+print(len(corpus))
+
+with open("data/interim/corpus.p", "wb") as of:
     pickle.dump(corpus, of)

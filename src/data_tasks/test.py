@@ -1,6 +1,6 @@
-doc_toks = ["Az","OTP", "Bank", "NYRT.", "és", "Valamilyen", "Kft."]
-sentences = ["Az","OTP", "Bank", "NYRT",  ".", "és", "Valamilyen", "Kft", "."]
-iobs = ['O', 'ORG', 'ORG', 'ORG', 'O', 'O', 'ORG', 'ORG', 'O']
+doc_toks = ["Az", "OTP", "Bank", "NYRT.", "és", "Valamilyen", "Kft."]
+sentences = ["Az", "OTP", "Bank", "NYRT", ".", "és", "Valamilyen", "Kft", "."]
+iobs = ["O", "ORG", "ORG", "ORG", "O", "O", "ORG", "ORG", "O"]
 new_tags = []
 
 j = 0
@@ -17,4 +17,3 @@ while j < len(sentences):
 
 for i in range(len(doc_toks)):
     print(doc_toks[i], new_tags[i])
-

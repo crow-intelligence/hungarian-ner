@@ -8,16 +8,16 @@ from pathlib import Path
 import spacy
 from spacy.util import minibatch, compounding
 
-with open('data/interim/corpus.p', 'rb') as f:
+with open("data/interim/corpus.p", "rb") as f:
     corpus = pickle.load(f)
 
-corpus = [e for e in corpus if e != ('', [])]
+corpus = [e for e in corpus if e != ("", [])]
 corpus = [(e[0], {"entities": e[1]}) for e in corpus]
 random.shuffle(corpus)
 splitat = int(len(corpus) * 0.6)
 TRAIN_DATA = corpus[:splitat]
 test_corpus = corpus[splitat:]
-with open('data/interim/test.p', 'wb') as of:
+with open("data/interim/test.p", "wb") as of:
     pickle.dump(test_corpus, of)
 
 
@@ -25,7 +25,7 @@ with open('data/interim/test.p', 'wb') as of:
 #     model=("hu", "option", "m", str),
 #     output_dir=("/home/developer/PycharmProjects/spacy_hu_ner/models", "option", "o", Path),
 #     n_iter=("1", "option", "n", int),)
-def main(model=None, output_dir='models', n_iter=100):
+def main(model=None, output_dir="models", n_iter=100):
     """Load the model, set up the pipeline and train the entity recognizer."""
     if model is not None:
         nlp = spacy.load(model)  # load existing spaCy model
@@ -85,6 +85,7 @@ def main(model=None, output_dir='models', n_iter=100):
         nlp.to_disk(output_dir)
         print("Saved model to", output_dir)
         import time
+
         time.sleep(10)
         # test the saved model
         # print("Loading from", output_dir)
@@ -93,6 +94,7 @@ def main(model=None, output_dir='models', n_iter=100):
         #     doc = nlp2(text)
         #     print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
         #     print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
+
 
 if __name__ == "__main__":
     main()
