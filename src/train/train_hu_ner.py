@@ -21,10 +21,6 @@ with open("data/interim/test.p", "wb") as of:
     pickle.dump(test_corpus, of)
 
 
-# @plac.annotations(
-#     model=("hu", "option", "m", str),
-#     output_dir=("/home/developer/PycharmProjects/spacy_hu_ner/models", "option", "o", Path),
-#     n_iter=("1", "option", "n", int),)
 def main(model=None, output_dir="models", n_iter=100):
     """Load the model, set up the pipeline and train the entity recognizer."""
     if model is not None:
@@ -70,11 +66,6 @@ def main(model=None, output_dir="models", n_iter=100):
                 )
             print("Losses", losses)
 
-    # test the trained model
-    # for text, _ in TRAIN_DATA:
-    #     doc = nlp(text)
-    #     print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
-    #     print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
 
     # save model to output directory
     print(output_dir)
@@ -84,16 +75,6 @@ def main(model=None, output_dir="models", n_iter=100):
             output_dir.mkdir()
         nlp.to_disk(output_dir)
         print("Saved model to", output_dir)
-        import time
-
-        time.sleep(10)
-        # test the saved model
-        # print("Loading from", output_dir)
-        # nlp2 = spacy.load(output_dir)
-        # for text, _ in TRAIN_DATA:
-        #     doc = nlp2(text)
-        #     print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
-        #     print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
 
 
 if __name__ == "__main__":

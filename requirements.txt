@@ -1,4 +1,6 @@
+appdirs==1.4.3
 attrs==19.1.0
+black==19.3b0
 blis==0.2.4
 certifi==2019.6.16
 chardet==3.0.4
@@ -10,6 +12,7 @@ joblib==0.13.2
 jsonschema==3.0.1
 lemmy==0.1.0
 murmurhash==1.0.2
+nltk==3.4.4
 numpy==1.16.4
 pandas==0.24.2
 plac==0.9.6
@@ -25,6 +28,7 @@ six==1.12.0
 spacy==2.1.4
 srsly==0.0.7
 thinc==7.0.4
+toml==0.10.0
 tqdm==4.32.2
 urllib3==1.25.3
 wasabi==0.2.2
