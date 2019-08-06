@@ -1,6 +1,6 @@
 import pickle
 
-from nltk.tokenize.treebank import TreebankWordDetokenizer
+from sacremoses import MosesDetokenizer
 from spacy.gold import iob_to_biluo
 from spacy.gold import offsets_from_biluo_tags
 
@@ -68,15 +68,35 @@ for f in hunerwiki:
                 tags = []
 corpus = []
 nlp = hu_core_ud_lg.load()
+md = MosesDetokenizer(lang='hu')
 for i in range(len(sentences)):
-    detokenized_sent = TreebankWordDetokenizer().detokenize(sentences[i])
+    detokenized_sent = md.detokenize(sentences[i])
     doc = nlp(detokenized_sent)
-    tags = iob_to_biluo(iobs[i])
-    entities = offsets_from_biluo_tags(doc, tags)
-    e = (detokenized_sent, entities)
-    for ent in entities:
-        print(detokenized_sent[ent[0]:ent[1]])
-    corpus.append(e)
+    doc_toks = [tok.text for tok in doc]
+    if not (doc_toks == sentences[i]):
+        # doc_toks rövidebb általában
+        j = 0
+        k = 0
+        new_tags = []
+        while j < len(sentences[i]):
+            if sentences[i][j] == doc_toks[k]:
+                new_tags.append(iobs[i][j])
+                j += 1
+                k += 1
+            else:
+                new_tags.append(iobs[i][j])
+                k += 1
+                j += 2
+        tags = iob_to_biluo(new_tags)
+    else:
+        tags = iob_to_biluo(iobs[i])
+    try:
+        entities = offsets_from_biluo_tags(doc, tags)
+        e = (detokenized_sent, entities)
+        corpus.append(e)
+    except Exception as err:
+        print(err, detokenized_sent)
+        continue
 
 with open('data/interim/corpus.p', 'wb') as of:
     pickle.dump(corpus, of)
