@@ -66,7 +66,6 @@ def main(model=None, output_dir="models", n_iter=100):
                 )
             print("Losses", losses)
 
-
     # save model to output directory
     print(output_dir)
     if output_dir is not None:
