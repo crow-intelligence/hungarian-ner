@@ -8,7 +8,7 @@ Click==7.0
 cymem==2.0.2
 hu-core-ud-lg==0.2.0
 idna==2.8
-joblib==0.13.2
+joblib==1.2.0
 jsonschema==3.0.1
 lemmy==0.1.0
 murmurhash==1.0.2
